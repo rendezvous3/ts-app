@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import { Store, actionsTypes } from './Store';
 import { IAction, IEpisode } from './interfaces';
 
+const EpisodeList = React.lazy<any>(() => import('./EpisodesList'));
+
 export default function App(): JSX.Element {
   const { state, dispatch } = useContext(Store);
 
@@ -44,33 +46,15 @@ export default function App(): JSX.Element {
       <h1>Rick and Morty</h1>
       <p>Pick your favorite episode</p>
       <div data-testid='episodes-list'>
-        {state.episodes.length &&
-          state.episodes.map((episode: IEpisode) => {
-            // console.log('EPISODE', episode.image);
-            return (
-              <div data-testid='episode-list-item' key={episode.id}>
-                {episode.image && (
-                  <img
-                    src={episode.image.medium}
-                    alt={`Rick and Morty ${episode.name}`}
-                  />
-                )}
-
-                <div>{episode.name}</div>
-                <div>
-                  <div>
-                    Season: {episode.season} Number: {episode.number}
-                  </div>
-                  <button
-                    type='button'
-                    onClick={() => toggleFavAction(episode)}
-                  >
-                    {state.favorites.find((fav: IEpisode) => fav.id === episode.id) ? 'Unfav' : 'Fav'}
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+        {state.episodes.length && (
+          <React.Suspense fallback={<div>...Loading</div>}>
+            <EpisodeList
+              episodes={state.episodes}
+              toggleFavAction={toggleFavAction}
+              favorites={state.favorites}
+            />
+          </React.Suspense>
+        )}
       </div>
     </div>
   );
