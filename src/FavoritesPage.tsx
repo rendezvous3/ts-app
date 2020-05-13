@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Store } from './Store';
-import { fetchDataAction, toggleFavAction } from './actions';
+import { toggleFavAction } from './actions';
 import { IEpisodeProps } from './interfaces';
 
 const EpisodeList = React.lazy<any>(() => import('./EpisodesList'));
