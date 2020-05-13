@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Store, actionsTypes } from './Store';
-import { IAction, IEpisode } from './interfaces';
+import { IAction, IEpisode, IEpisodeProps } from './interfaces';
 
 const EpisodeList = React.lazy<any>(() => import('./EpisodesList'));
 
@@ -40,6 +40,12 @@ export default function App(): JSX.Element {
     return dispatch(dispatchObj);
   };
 
+  const episodeListProps: IEpisodeProps = {
+    episodes: state.episodes,
+    favorites: state.favorites,
+    toggleFavAction: toggleFavAction
+  };
+
   console.log('STATE ', state);
   return (
     <div data-testid='component-app'>
@@ -48,11 +54,7 @@ export default function App(): JSX.Element {
       <div data-testid='episodes-list'>
         {state.episodes.length && (
           <React.Suspense fallback={<div>...Loading</div>}>
-            <EpisodeList
-              episodes={state.episodes}
-              toggleFavAction={toggleFavAction}
-              favorites={state.favorites}
-            />
+            <EpisodeList {...episodeListProps} />
           </React.Suspense>
         )}
       </div>

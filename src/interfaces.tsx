@@ -9,7 +9,7 @@ export interface IEpisode {
   runtime: number;
   season: number;
   summary: string;
-  url: string; 
+  url: string;
 }
 
 export interface IState {
@@ -22,4 +22,10 @@ export interface IState {
 export interface IAction {
   type: string;
   payload: any;
+}
+
+export interface IEpisodeProps {
+  episodes: IEpisode[];
+  favorites: IEpisode[];
+  toggleFavAction: (episode: IEpisode) => IAction,
 }
